@@ -1,6 +1,6 @@
 # == Class: peervpn
 #
-# Class to install peervpn on Centos/Redhat.
+# Class to install peervpn
 #
 # === Parameters
 #
@@ -31,16 +31,8 @@
 #
 # Author Name <mdecamps@gmail.com>
 #
-# === Copyright
-#
-# Copyright 2014 Miguel DeCamps
-#
 class peervpn (
  $filestore = 'puppet:///files/PEERVPN',
- $workspace = '/usr/src',
- $package = 'peervpn.tar.gz',
- $peervpninit = 'peervpninit',
- $peervpnsysconfig = 'peervpnsysconfig',
  $config_template   = $peervpn::params::config_template,
  $package_ensure    = $peervpn::params::package_ensure,
  $package_name      = $peervpn::params::package_name,
@@ -50,10 +42,12 @@ class peervpn (
  $service_manage    = $peervpn::params::service_manage,
  $service_name      = $peervpn::params::service_name,
  $network_name      = $peervpn::params::network_name,
+ $psk               = $peervpn::params::psk,
  $init_peers        = $peervpn::params::init_peers,
  $init_peers_port   = $peervpn::params::init_peers_port,
- $ipaddr_Netmask    = $peervpn::params::ipaddr_Netmask,
  $ifconfig4         = $peervpn::params::ifconfig4,
+ $ifconfig6         = $peervpn::params::ifconfig6,
+ $relay             = $peervpn::params::relay,
 
 
 ) inherits peervpn::params {
@@ -63,17 +57,8 @@ class peervpn (
   validate_bool($service_manage)
   validate_string($service_name)
 
-  anchor { 'peervpn::begin': } ->
-  class { '::peervpn::install': 
-      filestore => $filestore,
-      workspace => $workspace,
-      package => $package,
-      peervpninit => $peervpninit,
-      peervpnsysconfig => $peervpnsysconfig,
-  } ->
-  class { '::peervpn::config': } ~>
-  class { '::peervpn::service': } ->
-  anchor { 'peervpn::end': }
-
+  class { '::peervpn::install': } ->
+  class { '::peervpn::config': } ->
+  class { '::peervpn::service': }
 }
 
