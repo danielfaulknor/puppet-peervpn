@@ -1,0 +1,15 @@
+{
+  "name": "danielfaulknor-peervpn",
+  "version": "1.0.0",
+  "author": "danielfaulknor",
+  "summary": "Configures PeerVPN",
+  "license": "Apache-2.0",
+  "source": "https://github.com/danielfaulknor/puppet-peervpn",
+  "project_page": "https://github.com/danielfaulknor/puppet-peervpn",
+  "issues_url": "https://github.com/danielfaulknor/puppet-peervpn/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs-firewall","version_requirement":">= 1.0.0"}
+  ]
+}
+
